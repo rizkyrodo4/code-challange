@@ -9,7 +9,7 @@ import { createClient } from "contentful";
 import { useEffect, useState } from "react";
 
 export default function BigBanner() {
-  const [collection, setCollection] = useState([]);
+  const [collection, setCollection] = useState([]) as any;
 
   useEffect(() => {
     async function getData() {
@@ -18,18 +18,20 @@ export default function BigBanner() {
           space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID!,
           accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN!,
         });
-        const response = await client.getEntries({
-          content_type: process.env.NEXT_PUBLIC_CONTENTFUL_CONTENT_TYPE_CAR_RENTAL || "",
-        });
-        setCollection(response.items );
+        const response = (await client.getEntries({
+          content_type:
+            process.env.NEXT_PUBLIC_CONTENTFUL_CONTENT_TYPE_CAR_RENTAL || "",
+        })) as any;
 
+        setCollection(response?.items[0]?.fields);
       } catch (error) {
         console.error(error);
       }
     }
     getData();
   }, []);
-  console.log(collection[0]?.fields?.photos.fields.file.url)
+
+  if (!collection?.photos?.fields?.file?.url) return null;
 
   return (
     <section className="relative px-4 py-8 md:px-20 md:py-10">
@@ -39,7 +41,7 @@ export default function BigBanner() {
       <Image
         alt="Car Wash"
         // src={`/img/1.jpg`}
-        src={`https:${collection[0]?.fields?.photos.fields.file.url}`}
+        src={`https:${collection?.photos?.fields?.file?.url}`}
         fill
         style={{ objectFit: "cover" }}
       />
