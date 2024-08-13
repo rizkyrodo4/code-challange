@@ -124,7 +124,7 @@ export default function CustomFooter() {
 
             <div>
               <p className="mb-4 text-xl font-bold">Newsletter</p>
-              <p className="mb-4">Welcome to our latest edition of the [Your Company Name] Newsletter. We’re excited to share the latest updates, news, and special offers with you. Read on to find out what's new and how you can make the most of our services.</p>
+              <p className="mb-4">{`Welcome to our latest edition of the [Your Company Name] Newsletter. We’re excited to share the latest updates, news, and special offers with you. Read on to find out what's new and how you can make the most of our services.`}</p>
 
               <Input
                 placeholder="Your email"
